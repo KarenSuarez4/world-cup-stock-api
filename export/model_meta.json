@@ -1,0 +1,19 @@
+{
+  "model_name": "Logistic Regression",
+  "model_version": "v1.0.0-worldcup2026",
+  "target": "advanced_far",
+  "features": [
+    "total_matches",
+    "world_cups",
+    "goals_per_match",
+    "conceded_per_match",
+    "goal_diff",
+    "win_rate",
+    "draw_rate",
+    "loss_rate",
+    "ht_scored",
+    "ht_conceded",
+    "avg_attendance",
+    "cluster"
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  "total_matches",
+  "world_cups",
+  "goals_per_match",
+  "conceded_per_match",
+  "goal_diff",
+  "win_rate",
+  "draw_rate",
+  "loss_rate",
+  "ht_scored",
+  "ht_conceded",
+  "avg_attendance",
+  "cluster"
+]
