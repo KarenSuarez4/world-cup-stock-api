@@ -7,6 +7,7 @@ from pathlib import Path
 import json
 import joblib
 import pandas as pd
+from fastapi import HTTPException
 
 BASE_DIR = Path(__file__).resolve().parent
 EXPORT_DIR = BASE_DIR.parent / "export"
@@ -72,12 +73,28 @@ def build_recommendation(prob_quarters: float):
         return "hold", "Probabilidad moderada. Mantener stock."
     return "promotion", "Probabilidad baja. Considerar promocion temprana."
 
+def load_default_payload() -> list[TeamInput]:
+    payload_path = EXPORT_DIR / "default_payload.json"
+    if not payload_path.exists():
+        return []
+    raw = json.loads(payload_path.read_text(encoding="utf-8"))
+    return [TeamInput(**item) for item in raw]
+
 @app.get("/health")
 def health():
     return {"status": "ok", "model": MODEL_META.get("model_name") }
+    
 
 @app.post("/predictions", response_model=PredictionResponse)
 def predict(payload: List[TeamInput]):
+    if len(payload) == 0:
+        payload = load_default_payload()
+        if len(payload) == 0:
+            raise HTTPException(
+                status_code=400,
+                detail="Empty payload. Provide data or upload default_payload.json"
+            )
+
     rows = []
     for item in payload:
         row = {"team": item.team, **item.features}
